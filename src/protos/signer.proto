@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package grpc_signer;
+
+service GruutSignerService {
+    rpc openChannel(stream Identity) returns (stream ReplyMsg) {}
+    rpc signerService (RequestMsg) returns (MsgStatus) {}
+}
+
+message RequestMsg {
+    bytes message = 1;
+}
+message ReplyMsg {
+    bytes message = 1;
+}
+message MsgStatus {
+    enum Status{
+        SUCCESS = 0;
+        INVALID = 1;
+        INTERNAL = 2;
+    }
+    Status status = 1;
+    string message = 2;
+}
+message Identity {
+    bytes sender = 1;
+}
