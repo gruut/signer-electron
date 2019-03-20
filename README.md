@@ -2,7 +2,7 @@
 
 > An electron-vue project
 
-#### Build Setup
+## Build Setup
 
 ``` bash
 # install dependencies
@@ -21,6 +21,16 @@ npm test
 # lint all JS/Vue component files in `src/`
 npm run lint
 
+```
+
+## Package 설치
+
+1. LZ4
+
+``` bash
+# 관리자 권한 필요
+npm install -g --production windows-build-tools
+npm config set python C:\Users\{USER_NAME}\.windows-build-tools\python27\python.exe
 ```
 
 ---

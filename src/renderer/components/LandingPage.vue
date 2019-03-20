@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import Cert from '../../utils/cert'
+import Cert from '../../utils/Cert'
 import qs from 'qs'
 
 export default {
@@ -36,12 +36,20 @@ export default {
 
       this.$http.post(`${uri}`, qs.stringify(data), headers)
         .then(response => {
-          require('electron').remote.getGlobal('sharedObject').certificate = response.pem
-          require('electron').remote.getGlobal('sharedObject').nid = response.nid
-          Cert.writeCert(response.pem)
-          console.log(response)
+          if (response.status === 200) {
+            const pem = response.data.certPem
+            const nid = response.data.nid
+            if (pem) {
+              Cert.writeUserInfo(nid, pem)
+            } else {
+              // 이미 등록 된 유저일 경우
+              console.log('Error: ' + response.data)
+            }
+          } else {
+            console.log('Error: ' + response.data)
+          }
         }).catch((error) => {
-          console.log('Error: ' + JSON.stringify(error))
+          console.log('Error: ' + error)
         })
     }
   }
